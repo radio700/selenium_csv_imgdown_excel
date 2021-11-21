@@ -1,3 +1,4 @@
+#https://www.youtube.com/watch?v=ZHx6oATaI28&t=719s
 from selenium import webdriver
 import time
 from selenium.webdriver.common.keys import Keys #엔터칠때 필요
