@@ -5,6 +5,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 import urllib.request
 import os
+import pyautogui as pg
+
 
 
 #밑에 두줄은 환경세팅[필수]
@@ -14,10 +16,11 @@ options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple
 
 #브라우저생성[필수]
 browser = webdriver.Chrome('C:\chromedriver.exe',options=options)
-browser.get("http://www.google.com")
+browser.get("https://images.google.com/")
 
 #클릭
-search_item = input('다운받고 싶은 이미지 쓰세요>>>>')
+search_item = pg.prompt(text='검색하고 싶은 내용을 써주세요', title='웹크롤링 탐색기', default='')
+# search_item = input('다운받고 싶은 이미지 쓰세요>>>>')
 searchbar = browser.find_element_by_name('q')
 searchbar.click()
 time.sleep(1)
@@ -26,7 +29,7 @@ searchbar.send_keys(Keys.ENTER)
 time.sleep(1)
 
 #이미지탭 클릭함
-browser.find_element_by_css_selector('.hdtb-mitem a').click()
+# browser.find_element_by_css_selector('.hdtb-mitem a').click()
 
 
 
@@ -49,7 +52,11 @@ while True:
 images_thumnails = browser.find_elements_by_css_selector('.rg_i.Q4LuWd')
 
 count =1
-os.mkdir(f"{search_item}")
+try:
+  os.mkdir(f"{search_item}")
+except:
+  pass
+
 for image in images_thumnails:
   try:
     image.click()
