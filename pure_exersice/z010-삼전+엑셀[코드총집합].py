@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 import openpyxl
 import time
 import os
+from datetime import datetime
 
 #https://www.youtube.com/watch?v=n8_SeIZ_vo4&t=5s
 
@@ -12,13 +13,15 @@ if not os.path.exists(path):
     print('워크북을 만듭니다')
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws['A1'] = '참가번호'
-    ws['B1'] = '현재가'
-    ws['C1'] = '평균매입가'
-    ws['D1'] = "잔고수량"
-    ws['E1'] = "평가금액"
-    ws['F1'] = "평가손익"
-    ws['G1'] = "수익률"
+    ws.title = "종가"
+    ws['A1'] = '날짜'
+    ws['B1'] = '참가번호'
+    ws['C1'] = '현재가'
+    ws['D1'] = '평균매입가'
+    ws['E1'] = "잔고수량"
+    ws['F1'] = "평가금액"
+    ws['G1'] = "평가손익"
+    ws['h1'] = "수익률"
     wb.save(path)
 else:
     print('이제부터 씁니다')
@@ -32,6 +35,7 @@ else:
     }
 
     row = 2
+
 
     for code in codes:
 
@@ -48,9 +52,15 @@ else:
         price = int(price.replace(',', ''))
         print(price)
 
-        ws[f'A{row}'] = type
+        year = datetime.now().year
+        month = datetime.now().month
+        day = datetime.now().day
 
-        ws[f"B{row}"] = int(price)
+        ws[f'A{row}'] = (f"{year}/{month}/{day}")
+
+        ws[f'B{row}'] = type
+
+        ws[f"C{row}"] = int(price)
         row = row+1
 
     wb.save(path)
